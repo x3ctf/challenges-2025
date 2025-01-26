@@ -1,0 +1,31 @@
+apiVersion: berg.norelect.ch/v1
+kind: Challenge
+metadata:
+  name: mvmcheckers-inc
+  namespace: berg
+spec:
+  categories:
+    - mvm
+    - web
+  difficulty: hard
+  author: joneswastaken
+  flag: MVM{c7f5_4r3_4_m461c_pl4c3_4r3n7_7h3y}
+  flagFormat: MVM{...}
+  description: |
+    Welcome new employee! As you are aware, we at <s>SpellCheckers</s> MVMCheckers Inc. are the foremost experts at creating magical days for
+    our clients. Please fell free to explore our administration application. Be aware that we are currently rebuilding the
+    system using our proprietary, cutting edge interpreter.
+  containers:
+    - hostname: mvmcheckers-inc
+      image: gcr.io/mvm-x3ctf/x3ctf/challenge/mvmcheckers-inc:latest
+      resourceLimits:
+        cpu: "0.2"
+        memory: "100Mi"
+      ports:
+        - port: 80
+          protocol: tcp # Must be either tcp/udp
+          appProtocol: http # Signal to the frontend how to connect. For web services, use http. If unsure, use tcp.
+          type: publicTlsRoute
+  attachments:
+    - fileName: MVMCheckers-Inc.tar.gz
+      downloadUrl: /handouts/MVMCheckers-Inc.tar.gz

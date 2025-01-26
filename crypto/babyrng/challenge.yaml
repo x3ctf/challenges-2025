@@ -1,0 +1,21 @@
+apiVersion: berg.norelect.ch/v1
+kind: Challenge
+metadata:
+  name: babyrng
+  namespace: berg
+spec:
+  categories:
+    - mvm
+    - crypto
+
+  difficulty: easy # Must be one of baby/easy/medium/hard/leet
+  author: ksaweryr
+  allowOutboundTraffic: false
+  flag: MVM{4_M0n4D_15_jU5t_4_m0N01d_1n_Th3_c4t3G0Ry_0f_3ND0FUNCT0R5_:D}
+  flagFormat: MVM{...}
+  description: |
+    A flag has been stolen, destroyed and buried underground in a random location.
+    System.Random was used, so it should be impossible to recover the flag... right?
+  attachments:
+    - fileName: babyrng.tar.gz
+      downloadUrl: /handouts/babyrng.tar.gz

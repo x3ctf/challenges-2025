@@ -1,0 +1,36 @@
+apiVersion: berg.norelect.ch/v1
+kind: Challenge
+metadata:
+  name: pwny-heap
+  namespace: berg
+spec:
+  categories:
+    - mvm
+    - pwn
+  difficulty: medium # Must be one of baby/easy/medium/hard/leet
+  author: pwnpope
+  allowOutboundTraffic: false
+  flag: MVM{pwnpope_is_mining_xmr_on_your_machine_for_the_vatican}
+  flagFormat: MVM{...}
+  hideUntil:  "2025-01-25T18:00:00+00:00"
+  description: |
+    ponys like the heap so i made pwny heap
+  containers:
+    - hostname: pwny-heap
+      image: gcr.io/mvm-x3ctf/x3ctf/challenge/pwny-heap:latest
+      resourceLimits:
+        cpu: "0.2"
+        memory: "100Mi"
+      ports:
+        - port: 1337
+          protocol: tcp # Must be either tcp/udp
+          appProtocol: tcp # Signal to the frontend how to connect. For web services, use http. If unsure, use tcp.
+          # Port type can be one of:
+          # - publicHttpRoute: Expose this service via HTTPS with automatic HTTP to HTTPS redirection
+          # - publicTlsRoute: Expose this service via a TLS-wrapped access
+          # - publicPort: Expose this service on a random high port
+          # - internalPort: Only expose this port for other containers, not to the public
+          type: publicTlsRoute
+  attachments:
+    - fileName: pwny-heap.tar.gz
+      downloadUrl: /handouts/pwny-heap.tar.gz

@@ -1,0 +1,35 @@
+apiVersion: berg.norelect.ch/v1
+kind: Challenge
+metadata:
+  name: kittyconvert
+  namespace: berg
+spec:
+  categories:
+    - web
+  difficulty: medium
+  author: rebane2001
+  # Change to true if your challenge requires a reverse shell or other form of data exfiltration
+  allowOutboundTraffic: false
+  flag: x3c{b1tm4p5_4r3_s1mpl3_6u7_7h3_4lph4_1s_w31rd}
+  flagFormat: x3c{...}
+  description: |
+    Need to convert a file? Our kittens have got you covered!
+  containers:
+    - hostname: kittyconvert
+      image: gcr.io/mvm-x3ctf/x3ctf/challenge/kittyconvert:latest
+      resourceLimits:
+        cpu: "0.2"
+        memory: "100Mi"
+      ports:
+        - port: 80
+          protocol: tcp # Must be either tcp/udp
+          appProtocol: http # Signal to the frontend how to connect. For web services, use http. If unsure, use tcp.
+          # Port type can be one of:
+          # - publicHttpRoute: Expose this service via HTTPS with automatic HTTP to HTTPS redirection
+          # - publicTlsRoute: Expose this service via a TLS-wrapped access
+          # - publicPort: Expose this service on a random high port
+          # - internalPort: Only expose this port for other containers, not to the public
+          type: publicHttpRoute
+  attachments:
+    - fileName: kittyconvert.tar.gz
+      downloadUrl: /handouts/kittyconvert.tar.gz

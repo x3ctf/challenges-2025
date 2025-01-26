@@ -1,0 +1,2 @@
+- figure out how the key is encrypted (see the source)
+- key is blahajs_for_the_win_c6e3a9b36269, gives u flag

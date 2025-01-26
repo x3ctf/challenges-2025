@@ -1,0 +1,29 @@
+apiVersion: berg.norelect.ch/v1
+kind: Challenge
+metadata:
+  name: p11n-trophy
+  namespace: berg
+spec:
+  categories:
+    - misc
+    - sanity
+    - cert
+  difficulty: baby # Must be one of baby/easy/medium/hard/leet
+  author: shadowcone
+  allowOutboundTraffic: true
+  flag: This certificate does not grant the rank of Master.
+  flagFormat: (no flag format)
+  description: |
+    By popular demand of a singular person, we have partnered with Let's Encrypt and obtained a limited number of personalized participation certificates. Available as long as supplies last. Out of fairness to other teams, please only download this certificate <b>once</b> per team.<br/><br/>
+    The flag for this challenge is the very last sentence of this certificate, in full (includes capitalization and punctuation).<br/>
+  containers:
+    - hostname: p11n-trophy
+      image: gcr.io/mvm-x3ctf/x3ctf/challenge/p11n-trophy:latest
+      resourceLimits:
+        cpu: "0.5"
+        memory: "750Mi"
+      ports:
+        - port: 5000
+          protocol: tcp # Must be either tcp/udp
+          appProtocol: http # Signal to the frontend how to connect. For web services, use http. If unsure, use tcp.
+          type: publicHttpRoute

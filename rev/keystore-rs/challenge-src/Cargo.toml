@@ -1,0 +1,23 @@
+[package]
+name = "keystore-rs"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+aes = "0.8.4"
+aes-gcm = "0.10.3"
+base64 = "0.22.1"
+block-modes = "0.9.1"
+block-padding = "0.3.3"
+debugoff = "0.2.2"
+fancy = "0.3.1"
+hex = "0.4.3"
+inquire = "0.7.5"
+termcolor = "1.4.1"
+
+[profile.release]
+strip = true  # Automatically strip symbols from the binary.
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"

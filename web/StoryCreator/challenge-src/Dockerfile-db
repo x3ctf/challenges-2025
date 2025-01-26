@@ -1,0 +1,3 @@
+FROM postgres:16
+ADD ./seed/seed.sql /docker-entrypoint-initdb.d/
+RUN chmod -R a+rwx /var/lib/postgresql/data/

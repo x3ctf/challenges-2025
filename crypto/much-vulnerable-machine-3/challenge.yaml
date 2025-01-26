@@ -1,0 +1,41 @@
+apiVersion: berg.norelect.ch/v1
+kind: Challenge
+metadata:
+  name: much-vulnerable-machine-3
+  namespace: berg
+spec:
+  author: xtea418
+  flag: MVM{sm4l_crt_3xp0nen7s_b4d_l0l}
+  flagFormat: MVM{...}
+  description: |
+    Here at MVM Inc. we follow questional buissness practices, from our "Customer Retention Strategy" up to straight up backdoors and sometimes also blackmail/extortion. We also claim to have a ISO 27k1 certification, which at some point was true... well until we got audited.
+
+    This is the last part of this series.
+  allowOutboundTraffic: false
+  difficulty: hard
+  hideUntil:  "2025-01-25T18:00:00+00:00"
+  categories:
+    - mvm
+    - crypto
+    - web
+  containers:
+    - hostname: api
+      image: gcr.io/mvm-x3ctf/x3ctf/challenge/much-vulnerable-machine-3:latest
+      resourceLimits:
+        cpu: "2"
+        memory: "500Mi"
+      environment:
+        FLAG: MVM{sm4l_crt_3xp0nen7s_b4d_l0l}
+        DB_PATH: /tmp/database.db
+        ADMIN_PASSWORD: a4pllleeooeoeb33d02c38699fb6957f31d4d8dbdead1e7749ed3438480212c320617189919
+      ports:
+        - port: 8000
+          protocol: tcp # Must be either tcp/udp
+          appProtocol: http # Signal to the frontend how to connect. For web services, use http. If unsure, use tcp.
+          type: publicHttpRoute
+
+
+  attachments:
+    - fileName: much-vulnerable-machine-3.tar.gz
+      downloadUrl: /handouts/much-vulnerable-machine-3.tar.gz
+

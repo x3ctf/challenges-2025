@@ -1,0 +1,181 @@
+<!-- solve script by rebane2001 -->
+<style>
+	@font-face {
+    font-family: "gg sans";
+    font-style: normal;
+    font-weight: 400;
+    src: url(c1b53be672aac192a996.woff2)format("woff2")
+}
+	html, body {
+		background: #313338;
+		font-family: "gg sans";
+		color: #DBDEE1;
+		font-size: 16px;
+		text-rendering: optimizelegibility;
+	}
+	div {
+		outline-color: #DBDEE1;
+		border-color: #DBDEE1;
+		text-rendering: optimizelegibility;
+		-webkit-transform: translate3d(0, 0, 0);
+	}
+</style>
+<button onclick="autosolve()">autosolve with flag hints</button><br>
+<canvas id="canvas" width="700" height="40"></canvas>
+<canvas id="canvas2" width="700" height="40"></canvas>
+<canvas id="original" width="700" height="40"></canvas>
+<div id="continues"></div>
+<script type="text/javascript">
+const FLAG = "x3c{b3c4u5e_p1x3l4710n_w0uldv3_b33n_2oo_e4sy_afdsjhsdf}";
+
+const continues = document.getElementById("continues");
+const ctx = document.getElementById("canvas").getContext("2d", {willReadFrequently: true, alpha: true});
+const ctx3 = document.getElementById("canvas2").getContext("2d", {willReadFrequently: true, alpha: true});
+const ctx2 = document.getElementById("original").getContext("2d", {willReadFrequently: true, alpha: true});
+const chars = "abcdefghijklmnopqrstuvwxyz_0123456789".split("");
+
+let autosolving = false;
+let oData;
+let nData;
+ctx.font = "16px gg sans";	
+ctx3.font = "16px gg sans";	
+function drawText(ctx,text) {
+	ctx.fillStyle = "#313338";
+	ctx.fillRect(0, 0, 700, 40);
+	ctx.fillStyle = "#DBDEE1";
+  	ctx.fillText(text, 16-8, 16+12);
+  	drawTextLinuxFix(ctx,text);
+}
+function drawTextLinuxFix(ctx,text) {
+  	let underfix = "";
+	for (i=0;i<text.length;i++) {
+  		if (text[i] == "_") {
+    		const start = ctx.measureText(underfix).width + 16-8;
+    		ctx.fillStyle = "#313338";
+    		ctx.fillRect(start, 29, 9, 1);
+    		ctx.fillStyle = "#DBDEE1";
+    		ctx.fillRect(start, 28, 9, 1);
+  		}
+  		underfix += text[i];
+	}
+}
+function beginSolve() {
+	solve("just finished a new chall :3:3 the flag is x3c{");
+}
+const im = new Image();
+im.src = "corrected.png";
+im.onload = () => {
+	ctx2.drawImage(im, -210, -401);
+	oData = ctx2.getImageData(0, 0, 700, 40);
+	setTimeout(()=>beginSolve(),100);
+}
+function checkMatch_basic() {
+	let difference = 0;
+	for(let i = 0; i < nData.length; i += 4) {
+	  if (oData[i+3])
+	  	difference += (Math.abs(nData[i]-oData[i])+Math.abs(nData[i+1]-oData[i+1])+Math.abs(nData[i+1]-oData[i+1]))
+	}
+	return difference;
+}
+function checkMatch() {
+	let difference = 0;
+	for(let i = 0; i < nData.length; i += 4) {
+        let pDR = oData[i];
+        let pDG = oData[i + 1];
+        let pDB = oData[i + 2];
+        if (pDR > 190)
+            continue;
+        if (pDR > 90) {
+            const mult = ((1/(((pDR-274)**2)+1))*170000+8)/10;
+            pDG *= mult;
+            pDB *= mult;
+        }
+        const green = nData[i + 1] - pDG;
+        const blue = nData[i + 2] - pDB;
+        const red_level = ((Math.max(oData[i] - 50, 0) + 50)/255);
+        const diff_level = (Math.abs(green) + Math.abs(blue));
+        let diff_multiplier = 1;
+        const x = (i / 4) % 226;
+        const y = Math.floor((i / 4) / 226);
+        difference += diff_level * diff_multiplier;
+	}
+	return difference;
+}
+
+
+async function solve(baseText) {
+	if (baseText.endsWith("}")) return drawText(ctx,baseText);
+	let baseTextWidth = ctx.measureText(baseText).width;
+	// mmm is widest possible, MMM if we also have uppercase chars
+	// note that very narrow strings will get misdetected with this config
+	let baseTextMax = ctx.measureText("mmm").width;
+	let targetArea = [16-8 + baseTextWidth - 4,16,baseTextMax,15];
+	oData = ctx2.getImageData(...targetArea).data;
+	let bestMatch = 2**31;
+	let bestc1 = "";
+
+	let best10s = [];
+	let best10max = 2**31;
+	
+
+	for (const c1 of chars) {
+		for (const c2 of chars) {
+			for (const c3 of chars) {
+					const attempt = baseText + c1 + c2 + c3;// + c4;
+					drawText(ctx,attempt);
+					nData = ctx.getImageData(...targetArea).data;
+
+					const d = checkMatch();
+					if (best10s.length < 10 || d < best10max) {
+						best10s.push([c1+c2+c3,d]);
+						best10s = best10s.sort((a,b)=>a[1]-b[1]).slice(0,10);
+						best10max = Math.max(...best10s.map(e=>e[1]));
+					}
+					if (d < bestMatch) {
+						bestMatch = d;
+						bestc1 = c1;
+						drawText(ctx3,attempt);
+					}
+			}
+			
+		}
+		await new Promise(resolve => requestAnimationFrame(resolve));
+	}
+
+	drawText(ctx,baseText);
+	if (autosolving) {
+		const reqChar = FLAG.split("x3c{")[1][baseText.split("x3c{")[1].length];
+		const p = document.createElement("p");
+		let msg = `Couldn't find "${reqChar}", cheating by looking at the flag.`;
+		for (const [i,entry] of best10s.entries()) {
+			if (entry[0][0] == reqChar) {
+				msg = `Picking option #${i+1} (${entry[0]})`;
+				break;
+			}
+		}
+		p.innerText = msg;
+		p.style.margin = "0";
+		continues.prepend(p);
+		return solve(baseText+reqChar);
+	} else {
+		continues.innerHTML = "";
+		for (const entry of [...best10s,["u  ",0],["l  ",0],["_  ",0],["}  ",0]]) {
+			const btn = document.createElement("button");
+			btn.innerHTML = baseText.substring(baseText.length-8) + `[${entry[0][0]}]` + entry[0][1] + entry[0][2] + ` (${entry[1]})`;
+			btn.style.display="block"
+			btn.onclick = () => {
+				continues.innerHTML = "";
+				solve(baseText+entry[0][0])
+			}
+			continues.appendChild(btn);
+		}
+	}
+}
+
+function autosolve() {
+	autosolving = true;
+	continues.innerHTML = "";
+	beginSolve();
+}
+
+</script>

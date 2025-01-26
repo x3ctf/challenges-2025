@@ -1,0 +1,19 @@
+apiVersion: berg.norelect.ch/v1
+kind: Challenge
+metadata:
+  name: mvm
+  namespace: berg
+spec:
+  categories:
+    - mvm
+    - misc
+  difficulty: baby # Must be one of baby/easy/medium/hard/leet
+  author: mvm
+  # Change to true if your challenge requires a reverse shell or other form of data exfiltration
+  flag: MVM{MVM_BRAIN_IS_FUCKED_MVM}
+  flagFormat: MVM{...}
+  description: |
+    This MVM is fucking with my brain...
+  attachments:
+    - fileName: mvm.tar.gz
+      downloadUrl: /handouts/mvm.tar.gz

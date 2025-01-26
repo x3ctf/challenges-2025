@@ -1,0 +1,18 @@
+apiVersion: berg.norelect.ch/v1
+kind: Challenge
+metadata:
+  name: hydraulic-press
+  namespace: berg
+spec:
+  categories:
+    - misc
+
+  difficulty: easy # Must be one of baby/easy/medium/hard/leet
+  author: rdx4.2
+  flag: x3c{nesting_is_fun_IDOWxzs3}
+  flagFormat: x3c{...}
+  description: |
+    Just decode and decompress this a couple of times and get the flag! Might contain some padding :3
+  attachments:
+    - fileName: hydraulic-press.tar.gz
+      downloadUrl: /handouts/hydraulic-press.tar.gz

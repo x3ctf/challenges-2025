@@ -1,0 +1,37 @@
+apiVersion: berg.norelect.ch/v1
+kind: Challenge
+metadata:
+  name: blogdog
+  namespace: berg
+spec:
+  categories:
+    - web
+    - xssbot
+
+  difficulty: hard # Must be one of baby/easy/medium/hard/leet
+  author: rebane2001
+  # Change to true if your challenge requires a reverse shell or other form of data exfiltration
+  allowOutboundTraffic: true
+  flag: x3c{did_u_find_a_d0m9ur1fy_0d4y_0r_is_1t_ju57_4_51lly_br0w53r_qu1rk}
+  flagFormat: x3c{...}
+  description: |
+    I'm starting a new website where we can blog about dogs!<br />
+    Could you write us an article?<br />
+    <br />
+    Note: The website is at http://localhost:3000/ for the xssbot.
+  containers:
+    - hostname: blogdog
+      image: gcr.io/mvm-x3ctf/x3ctf/challenge/blogdog:latest
+      environment:
+        FLAG: x3c{did_u_find_a_d0m9ur1fy_0d4y_0r_is_1t_ju57_4_51lly_br0w53r_qu1rk}
+      resourceLimits:
+        cpu: "0.4"
+        memory: "500Mi"
+      ports:
+        - port: 3000
+          protocol: tcp
+          appProtocol: http
+          type: publicHttpRoute
+  attachments:
+    - fileName: blogdog.tar.gz
+      downloadUrl: /handouts/blogdog.tar.gz

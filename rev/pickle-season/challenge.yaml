@@ -1,0 +1,20 @@
+apiVersion: berg.norelect.ch/v1
+kind: Challenge
+metadata:
+  name: pickle-season
+  namespace: berg
+spec:
+  categories:
+    - mvm
+    - rev
+  difficulty: medium
+  author: hackrrr
+  flag: MVM{B0r3d0m_1n_P1ckl3_s34s0n}
+  flagFormat: MVM{...}
+  description: |
+    It is that ~~silly~~ pickle season again... Nothing happens, no CTF challenges, just boredom. And so I created this challenge to fight that and help you to get through this season.<br>
+    I just hope you are not afraid of pickles.
+
+  attachments:
+    - fileName: pickle-season.tar.gz
+      downloadUrl: /handouts/pickle-season.tar.gz

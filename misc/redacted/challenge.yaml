@@ -1,0 +1,20 @@
+apiVersion: berg.norelect.ch/v1
+kind: Challenge
+metadata:
+  name: redacted
+  namespace: berg
+spec:
+  categories:
+    - misc
+
+  difficulty: hard # Must be one of baby/easy/medium/hard/leet
+  author: rebane2001
+  flag: x3c{b3c4u5e_p1x3l4710n_w0uldv3_b33n_2oo_e4sy_afdsjhsdf}
+  flagFormat: x3c{...}
+  description: |
+    We put the challenge in a zip file and redacted it.<br/>
+    <br/>
+    Note: This challenge is fully solvable both on Windows and Linux, although it's slightly easier on the former.
+  attachments:
+    - fileName: redacted.tar.gz
+      downloadUrl: /handouts/redacted.tar.gz

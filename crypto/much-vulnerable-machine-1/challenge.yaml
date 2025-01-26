@@ -1,0 +1,40 @@
+apiVersion: berg.norelect.ch/v1
+kind: Challenge
+metadata:
+  name: much-vulnerable-machine-1
+  namespace: berg
+spec:
+  author: xtea418
+  flag: MVM{jus7_s0m3_n0rm4l_b1as3d_n0nce_3cds4_g01ng_brrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr~}
+  flagFormat: MVM{...}
+  description: |
+    Here at MVM Inc. we roll our own things 😇. 
+
+    This is the the first part of a 3 part series of crypto challs.
+  allowOutboundTraffic: false
+  difficulty: easy
+  hideUntil:  "2025-01-25T18:00:00+00:00"
+  categories:
+    - mvm
+    - crypto
+    - web
+  containers:
+    - hostname: api
+      image: gcr.io/mvm-x3ctf/x3ctf/challenge/much-vulnerable-machine-1:latest
+      resourceLimits:
+        cpu: "1"
+        memory: "500Mi"
+      environment:
+        FLAG: MVM{jus7_s0m3_n0rm4l_b1as3d_n0nce_3cds4_g01ng_brrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr~}
+        DB_PATH: /tmp/database.db
+        ADMIN_PASSWORD: 9l9981716023c2120848343de947bbababaedbd8d4d13f7596bf99683c20d33beoeooebvrebebeeb4
+      ports:
+        - port: 8000
+          protocol: tcp # Must be either tcp/udp
+          appProtocol: http # Signal to the frontend how to connect. For web services, use http. If unsure, use tcp.
+          type: publicHttpRoute
+
+  attachments:
+    - fileName: much-vulnerable-machine-1.tar.gz
+      downloadUrl: /handouts/much-vulnerable-machine-1.tar.gz
+

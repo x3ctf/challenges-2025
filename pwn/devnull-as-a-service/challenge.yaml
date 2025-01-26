@@ -1,0 +1,40 @@
+apiVersion: berg.norelect.ch/v1
+kind: Challenge
+metadata:
+  name: devnull-as-a-service
+  namespace: berg
+spec:
+  categories:
+    - mvm
+    - pwn
+
+  difficulty: medium # Must be one of baby/easy/medium/hard/leet
+  author: alex_hcsc
+  allowOutboundTraffic: true
+  flag: MVM{r0p_4nd_sh3llc0d3_f0rm5_4_p3rf3c7_b4l4nc3}
+  flagFormat: MVM{...}
+  description: |
+    A few months ago, I came across <a href="https://devnull-as-a-service.com/">this</a> website. Inspired by it, I decided to recreate the service in C to self-host it.<br>
+    To avoid any exploitable vulnerabilities, I decided to use a very strict seccomp filter. Even if my code were vulnerable, good luck exploiting it.<br>
+    PS: You can find the flag at <code>/home/ctf/flag.txt</code> on the remote server.
+  containers:
+    - hostname: devnull-as-a-service
+      image: gcr.io/mvm-x3ctf/x3ctf/challenge/devnull-as-a-service:latest
+      environment:
+        WHATEVER: VALUE
+      resourceLimits:
+        cpu: "0.2"
+        memory: "100Mi"
+      ports:
+        - port: 1337
+          protocol: tcp # Must be either tcp/udp
+          appProtocol: tcp # Signal to the frontend how to connect. For web services, use http. If unsure, use tcp.
+          # Port type can be one of:
+          # - publicHttpRoute: Expose this service via HTTPS with automatic HTTP to HTTPS redirection
+          # - publicTlsRoute: Expose this service via a TLS-wrapped access
+          # - publicPort: Expose this service on a random high port
+          # - internalPort: Only expose this port for other containers, not to the public
+          type: publicTlsRoute
+  attachments:
+    - fileName: devnull-as-a-service.tar.gz
+      downloadUrl: /handouts/devnull-as-a-service.tar.gz

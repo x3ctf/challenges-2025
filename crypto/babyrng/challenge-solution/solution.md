@@ -1,0 +1,1 @@
+Read the source of Haskell random library (particularly https://hackage.haskell.org/package/splitmix-0.1.1/docs/src/System.Random.SplitMix.html), implement the inverse of `mix64` and use the fact that `state_{i + 1} = state_i + gamma` for some constant gamma to recover the one time pad key knowing full 2 words generated right after the flag is encrypted.

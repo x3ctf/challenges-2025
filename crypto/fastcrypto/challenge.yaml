@@ -1,0 +1,38 @@
+apiVersion: berg.norelect.ch/v1
+kind: Challenge
+metadata:
+  name: fastcrypto
+  namespace: berg
+spec:
+  categories:
+    - crypto
+
+  difficulty: medium # Must be one of baby/easy/medium/hard/leet
+  author: dagurb
+  # Change to true if your challenge requires a reverse shell or other form of data exfiltration
+  allowOutboundTraffic: false
+  flag: x3{so_l0ng_and_th4nks_for_all_the_NTT_43274987298472398}
+  flagFormat: x3{...}
+  description: |
+    Python's integer multiplication is actually insanely slow, therefore I decided to make my own <br />
+  containers:
+    - hostname: fastcrypto
+      image: gcr.io/mvm-x3ctf/x3ctf/challenge/fastcrypto:latest
+      environment:
+        WHATEVER: VALUE
+      resourceLimits:
+        cpu: "0.2"
+        memory: "100Mi"
+      ports:
+        - port: 1337
+          protocol: tcp # Must be either tcp/udp
+          appProtocol: tcp # Signal to the frontend how to connect. For web services, use http. If unsure, use tcp.
+          # Port type can be one of:
+          # - publicHttpRoute: Expose this service via HTTPS with automatic HTTP to HTTPS redirection
+          # - publicTlsRoute: Expose this service via a TLS-wrapped access
+          # - publicPort: Expose this service on a random high port
+          # - internalPort: Only expose this port for other containers, not to the public
+          type: publicTlsRoute
+  attachments:
+    - fileName: fastcrypto.tar.gz
+      downloadUrl: /handouts/fastcrypto.tar.gz

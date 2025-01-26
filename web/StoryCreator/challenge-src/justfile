@@ -1,0 +1,35 @@
+
+start:
+  docker compose up -d
+
+logs:
+  docker compose logs -f --tail=10
+
+stop:
+  docker compose stop
+
+destroy:
+  docker compose down -v
+
+reset-db:
+  docker compose stop db 
+  docker compose rm db 
+  docker volume rm backend_dbdata
+  docker compose up -d db
+
+exploit:
+  python3 exp.py
+
+handout:
+  mkdir -p handout
+
+  sed -e 's/pollution_is_bad/flag/' compose.yml > handout/compose.yml
+  cp Dockerfile handout/Dockerfile
+
+  rsync -r ./seed/ ./handout/seed/
+  rsync -r ./backend/ ./handout/backend/
+  find handout/backend -name '*_test.go' -type f -delete
+
+  rsync -r --exclude node_modules --exclude dist ./frontend/ ./handout/frontend/
+  rm -rf handout/node_modules handout/.yarn/cache
+  tar czvf handout.tar.gz handout

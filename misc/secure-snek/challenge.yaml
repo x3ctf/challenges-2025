@@ -1,0 +1,20 @@
+apiVersion: berg.norelect.ch/v1
+kind: Challenge
+metadata:
+  name: secure-snek
+  namespace: berg
+spec:
+  categories:
+    - mvm
+    - misc
+  difficulty: medium # Must be one of baby/easy/medium/hard/leet
+  author: 7o1
+  # Change to true if your challenge requires a reverse shell or other form of data exfiltration
+  flag: MVM{sn3k_n0t_50_53kur3}
+  flagFormat: MVM{...}
+  description: |
+    snek do be very secure
+  hideUntil:  "2025-01-25T18:00:00+00:00"
+  attachments:
+    - fileName: secure-snek.tar.gz
+      downloadUrl: /handouts/secure-snek.tar.gz

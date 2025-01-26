@@ -1,0 +1,60 @@
+apiVersion: berg.norelect.ch/v1
+kind: Challenge
+metadata:
+  name: storycreator
+  namespace: berg
+spec:
+  categories:
+    - mvm
+    - web
+
+  difficulty: hard # Must be one of baby/easy/medium/hard/leet
+  author: boxmein
+  allowOutboundTraffic: true
+  flag: MVM{pollution_is_bad}
+  flagFormat: MVM{...}
+  description: |
+    Make your own instagram stories using this useful tool!
+  containers:
+    - hostname: storycreator
+      image: gcr.io/mvm-x3ctf/x3ctf/challenge/storycreator/app:latest
+      environment:
+        DATABASE_URL: postgres://postgres:postgres@db:5432/cwte2024
+        FLAG: 'MVM{pollution_is_bad}'
+        GIN_MODE: release
+      resourceLimits:
+        cpu: "0.5"
+        memory: "400Mi"
+      ports:
+        - port: 8080
+          protocol: tcp # Must be either tcp/udp
+          appProtocol: http # Signal to the frontend how to connect. For web services, use http. If unsure, use tcp.
+          # Port type can be one of:
+          # - publicHttpRoute: Expose this service via HTTPS with automatic HTTP to HTTPS redirection
+          # - publicTlsRoute: Expose this service via a TLS-wrapped access
+          # - publicPort: Expose this service on a random high port
+          # - internalPort: Only expose this port for other containers, not to the public
+          type: publicHttpRoute
+    - hostname: db
+      image: gcr.io/mvm-x3ctf/x3ctf/challenge/storycreator/db:latest
+      environment:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+        POSTGRES_DB: cwte2024
+        PGDATA: /tmp
+      resourceLimits:
+        cpu: "0.2"
+        memory: "100Mi"
+      ports:
+        - port: 5432
+          protocol: tcp # Must be either tcp/udp
+          appProtocol: tcp # Signal to the frontend how to connect. For web services, use http. If unsure, use tcp.
+          # Port type can be one of:
+          # - publicHttpRoute: Expose this service via HTTPS with automatic HTTP to HTTPS redirection
+          # - publicTlsRoute: Expose this service via a TLS-wrapped access
+          # - publicPort: Expose this service on a random high port
+          # - internalPort: Only expose this port for other containers, not to the public
+          type: internalPort
+  attachments:
+    - fileName: StoryCreator.tar.gz
+      downloadUrl: /handouts/StoryCreator.tar.gz

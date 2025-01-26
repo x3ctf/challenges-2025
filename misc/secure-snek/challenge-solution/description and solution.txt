@@ -1,0 +1,89 @@
+This entire text is for organizers only, not for players. Feel free to write a story
+about this challenge though.
+
+Players should receive only 'main.py' and 'auth.py' and the encrypted flag.
+To get an encrypted flag, make one up then call encrypt('MVM{flag}', 3, 8).
+Optionally, you can host main.py on a server to which the players connect using telnet or netcat,
+in this case you do not need to provide encrypted flag. But it does not matter since no value is
+"hidden" on the server (this is not a pwn-style challenge), it is exactly the same as if the
+players ran the python code themselves. Also, if using a server, make sure to put the flag (or
+use os.getenv('FLAG'), whatever you prefer) inside main.py where it says MVM{FLAG_GOES_HERE}.
+
+For your convenience, unobfuscated code of auth.py is provided in auth_orig.py
+and the unminified obfuscated code is auth_vm.py
+
+Description:
+encrypt function takes three parameters: a, b, seed
+The only valid plaintext characters are string.printable[:-6]  (we strip these 6 characters: ' \t\n\r\x0b\x0c')
+seed is passed to random.Random which will shuffle the alphabet
+The rest is just shifting cipher, but for every character, the shift (in this case 'a') increases in a fibonacci-like manner
+If seed is not provided then it is a random integer between 1 and 10000, this makes it easy to bruteforce
+
+to solve this challenge, it is required to figure out what 'encrypt' function does
+by seeing the source code it is easy to see the following identity:
+
+c = encrypt(data, a, b, seed)
+assert data == encrypt(c, -a, -b, seed)
+
+From here, it would be the easiest to bypass the call to 'check_bad_params' (make it return False)
+and then call the encrypt() function with negative a and b to turn it into a decryption function
+
+Solve script:
+
+def encrypt(data, a, b, seed):
+    # the same function but without the 'if check_bad_params(a, b):' part
+    ...
+
+for seed in range(1, 10001):
+    flag = encrypt(ENCRYPTED_FLAG, -3, -8, seed)
+    if flag.startswith('MVM'):
+        print(flag)
+
+
+Since it assumes player has analyzed and possibly devirtualized auth.py, here is a brief summary of how
+one could approach introspecting it:
+
+In the obfuscated code, there is a list which keeps all variables. It is almost always at or near line 16, by default
+it is [builtins, getattr], in this case it's saved as variable 'O'. By iterating through it we can find the functions:
+
+# add this code to the end of auth.py
+import types
+
+for n, el in enumerate(O):
+    if isinstance(el, types.FunctionType):
+        print(n, el)
+
+We find import_module at index 82 (irrelevant) and two custom functions at index 96 and index 123
+
+The only place where list O is modified is inside a function which has this code: 'O.append(A.pop())'
+We cannot just replace this with
+if len(O) == 96:
+    A.pop()
+    O.append(lambda *a: False)
+Instead, we will look for a vm function which defines custom functions. Ctrl+F '.flags' will reveal one.
+
+Replace this:
+if not D<=B.a<L:return K
+
+with this:
+if not D<=B.a<L:
+    retval = K
+    if isinstance(retval, bool):
+        retval = False
+    return retval
+
+and also replace this:
+B.a=R
+
+with this:
+B.a=R
+retval = K
+if isinstance(retval, bool):
+    retval = False
+return retval
+
+Because we have two custom functions, one is check_bad_params and the other is encrypt. Only
+the former will return a bool, hence the isinstance check. We want it to return False.
+
+Now we patched the code so it allows us to input negative a and b. It remains to bruteforce
+seed value from 1 to 10000.

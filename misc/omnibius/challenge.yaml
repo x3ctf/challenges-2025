@@ -1,0 +1,18 @@
+apiVersion: berg.norelect.ch/v1
+kind: Challenge
+metadata:
+  name: omnibius
+  namespace: berg
+spec:
+  categories:
+    - misc
+
+  difficulty: medium # Must be one of baby/easy/medium/hard/leet
+  author: rebane2001
+  flag: x3c{v3ry_r3duc3d_1n57ructi0n_537}
+  flagFormat: x3c{...}
+  description: |
+    I found an old game cartridge for an obscure video game console at a yard sale. I don't have the console, but I found a PDF online describing the hardware. Could you help me get the game running?
+  attachments:
+    - fileName: omnibius.tar.gz
+      downloadUrl: /handouts/omnibius.tar.gz

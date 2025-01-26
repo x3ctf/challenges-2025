@@ -1,0 +1,37 @@
+apiVersion: berg.norelect.ch/v1
+kind: Challenge
+metadata:
+  name: curved-mvm
+  namespace: berg
+spec:
+  categories:
+    - mvm
+    - crypto
+  difficulty: easy # Must be one of baby/easy/medium/hard/leet
+  author: xtea418
+  allowOutboundTraffic: false
+  flag: MVM{why_k_no_v3wwy_much_se3uw3????}
+  flagFormat: MVM{...}
+  description: |
+    mvm cwypto chall for funny users.
+  containers:
+    - hostname: curved-mvm
+      image: gcr.io/mvm-x3ctf/x3ctf/challenge/curved-mvm:latest
+      environment:
+        FLAG: MVM{why_k_no_v3wwy_much_se3uw3????}
+      resourceLimits:
+        cpu: "0.5"
+        memory: "300Mi"
+      ports:
+        - port: 1337
+          protocol: tcp # Must be either tcp/udp
+          appProtocol: tcp  # Signal to the frontend how to connect. For web services, use http. If unsure, use tcp.
+          # Port type can be one of:
+          # - publicHttpRoute: Expose this service via HTTPS with automatic HTTP to HTTPS redirection
+          # - publicTlsRoute: Expose this service via a TLS-wrapped access
+          # - publicPort: Expose this service on a random high port
+          # - internalPort: Only expose this port for other containers, not to the public
+          type: publicTlsRoute
+  attachments:
+    - fileName: curved-mvm.tar.gz
+      downloadUrl: /handouts/curved-mvm.tar.gz

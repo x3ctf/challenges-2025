@@ -1,0 +1,17 @@
+apiVersion: berg.norelect.ch/v1
+kind: Challenge
+metadata:
+  name: trophy-plus
+  namespace: berg
+spec:
+  categories:
+    - misc
+    - cert
+  difficulty: baby # Must be one of baby/easy/medium/hard/leet
+  author: shadowcone
+  allowOutboundTraffic: false
+  flag: x3c{i_d1dn't_kn0w_mvm_c0uld_be_us3d_f0r_b1n4ry_3nc0d1ng_l0l}
+  flagFormat: x3c{...}
+  description: |
+    We got a little bored, so we hid another flag in the personalized certificate of participation for you. Good luck hunting ^_^!<br/><br/>
+    Note: You'll need the certificate from p11n-trophy for this challenge 😉<br/>

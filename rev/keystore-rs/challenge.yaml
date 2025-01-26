@@ -1,0 +1,20 @@
+apiVersion: berg.norelect.ch/v1
+kind: Challenge
+metadata:
+  name: keystore-rs
+  namespace: berg
+spec:
+  categories:
+    - rev
+  difficulty: hard  # Must be one of baby/easy/medium/hard/leet
+  author: Coderion
+  # Change to true if your challenge requires a reverse shell or other form of data exfiltration
+  allowOutboundTraffic: false
+  flag: x3c{rust_r3v_paiiiin_:3}
+  flagFormat: x3c{...}
+  description: |
+    you wanted more pwn - so i wrote a rust rev challenge. xoxo
+  hideUntil:  "2025-01-25T18:00:00+00:00"
+  attachments:
+    - fileName: keystore-rs.tar.gz
+      downloadUrl: /handouts/keystore-rs.tar.gz

@@ -1,0 +1,20 @@
+apiVersion: berg.norelect.ch/v1
+kind: Challenge
+metadata:
+  name: oh-my-gadt
+  namespace: berg
+spec:
+  categories:
+    - mvm
+    - rev
+  difficulty: medium # Must be one of baby/easy/medium/hard/leet
+  author: natan.p
+  flag: MVM{::333:3:/::33::33/w0w_g4d75_n_ph4n70m5_y1pp33}
+  flagFormat: MVM{...}
+  description: |
+    We had our unpaid intern make an uncrackable key checker.
+    They quit because of "inadequate pay", but they took the source code and the keys with them.
+    We really need these keys!
+  attachments:
+    - fileName: oh_my_gadt.tar.gz
+      downloadUrl: /handouts/oh_my_gadt.tar.gz

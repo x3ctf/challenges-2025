@@ -1,0 +1,19 @@
+---
+apiVersion: berg.norelect.ch/v1
+kind: Challenge
+metadata:
+  name: man-vs-matrix
+  namespace: berg
+spec:
+  categories:
+    - mvm
+    - crypto
+  difficulty: easy
+  author: alex_hcsc
+  flag: MVM{l1n34r_fuNcT10n5_4r3_my_f4v}
+  flagFormat: MVM{...}
+  description: |
+    I've just built an RNG algorithm from scratch. Can you break it?
+  attachments:
+    - fileName: man_vs_matrix.tar.gz
+      downloadUrl: /handouts/man_vs_matrix.tar.gz

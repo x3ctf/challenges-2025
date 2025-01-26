@@ -1,0 +1,29 @@
+apiVersion: berg.norelect.ch/v1
+kind: Challenge
+metadata:
+  namespace: berg
+  name: submission
+spec:
+  author: rebane2001
+  flag: x3c{4lw4y5_chm0d_y0ur3_f1l35_4_53cur17y}
+  flagFormat: x3c{...}
+  description: >
+    Could you help us out?
+  allowOutboundTraffic: false
+  difficulty: easy
+  categories:
+    - web
+  containers:
+    - hostname: submission
+      image: gcr.io/mvm-x3ctf/x3ctf/challenge/submission:latest
+      resourceLimits:
+        cpu: "0.2"
+        memory: "100Mi"
+      ports:
+        - port: 80
+          protocol: tcp
+          appProtocol: http
+          type: publicHttpRoute
+  attachments:
+    - fileName: submission.tar.gz
+      downloadUrl: /handouts/submission.tar.gz

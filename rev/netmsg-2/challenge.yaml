@@ -1,0 +1,41 @@
+apiVersion: berg.norelect.ch/v1
+kind: Challenge
+metadata:
+  name: netmsg-2
+  namespace: berg
+spec:
+  categories:
+    - rev
+    - crypto
+
+  difficulty: medium # Must be one of baby/easy/medium/hard/leet
+  author: rdx4.2
+  # Change to true if your challenge requires a reverse shell or other form of data exfiltration
+  allowOutboundTraffic: false
+  flag: x3c{3l1t3_crypt0_0nly_cough_cough_clickplc}
+  flagFormat: x3c{...}
+  description: |
+    <h2>pls use challs.x3c.tf:$PORT for the host instead of x3c.tf:$PORT</h2>
+    Besides the netmsg application itself, you also managed to get your hands on a packet capture of one of the users of the service. Don't ask.<br />
+    Try your hand at cracking the strong encryption used to secure the traffic (see netmsg-1 for the client application).
+  containers:
+    - hostname: netmsg-2
+      image: gcr.io/mvm-x3ctf/x3ctf/challenge/netmsg-1:latest
+      environment:
+        WHATEVER: VALUE
+      resourceLimits:
+        cpu: "0.2"
+        memory: "100Mi"
+      ports:
+        - port: 5001
+          protocol: tcp # Must be either tcp/udp
+          appProtocol: tcp # Signal to the frontend how to connect. For web services, use http. If unsure, use tcp.
+          # Port type can be one of:
+          # - publicHttpRoute: Expose this service via HTTPS with automatic HTTP to HTTPS redirection
+          # - publicTlsRoute: Expose this service via a TLS-wrapped access
+          # - publicPort: Expose this service on a random high port
+          # - internalPort: Only expose this port for other containers, not to the public
+          type: publicPort
+  attachments:
+    - fileName: netmsg-2.tar.gz
+      downloadUrl: /handouts/netmsg-2.tar.gz

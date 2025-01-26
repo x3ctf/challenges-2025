@@ -1,0 +1,18 @@
+apiVersion: berg.norelect.ch/v1
+kind: Challenge
+metadata:
+  name: foundations
+  namespace: berg
+spec:
+  categories:
+    - misc
+    - osint
+
+  difficulty: easy # Must be one of baby/easy/medium/hard/leet
+  author: rebane2001
+  flag: x3CTF{m4yb3_w3ll_m4ke_4_ch4ll3nge_0u7_0f_7h1s}
+  flagFormat: x3CTF{...}
+  description: |
+    I wonder what the first ever x3CTF flag was...<br>
+    <br>
+    Note: The flag format on this challenge is slightly different because we can't go back to 2024 and change it. This challenge does not require any active attacks.

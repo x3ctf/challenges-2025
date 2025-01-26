@@ -1,0 +1,21 @@
+apiVersion: berg.norelect.ch/v1
+kind: Challenge
+metadata:
+  name: rubiks-dsa
+  namespace: berg
+spec:
+  categories:
+    - mvm
+    - crypto
+  difficulty: medium # Must be one of baby/easy/medium/hard/leet
+  author: alex_hcsc
+  flag: MVM{sp1cy_rUb1k5_ds4}
+  flagFormat: MVM{...}
+  description: |
+    I made a digital signature algorithm based on the Rubik's cube, can you break it?
+    PS: the solve script might run for a few minutes
+  hideUntil:  "2025-01-25T18:00:00+00:00"
+  attachments:
+    - fileName: rubiks-dsa.tar.gz
+      downloadUrl: /handouts/rubiks-dsa.tar.gz
+

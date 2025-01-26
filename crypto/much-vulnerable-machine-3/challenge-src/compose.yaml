@@ -1,0 +1,13 @@
+---
+# local only!
+
+services:
+  api:
+    build:
+      context: ./api
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_PATH=/tmp/database.db
+      - ADMIN_PASSWORD=kjfkasjdfkldsaklfjklsadjflksjflkjfljfkl
+      - FLAG=MVM{sm4l_crt_3xp0nen7s_b4d_l0l}

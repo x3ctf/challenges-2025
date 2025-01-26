@@ -1,0 +1,17 @@
+apiVersion: berg.norelect.ch/v1
+kind: Challenge
+metadata:
+  name: notcrypto
+  namespace: berg
+spec:
+  categories:
+    - rev
+  difficulty: easy # Must be one of baby/easy/medium/hard/leet
+  author: dagurb
+  flag: x3c{pwndbg_and_pwntools_my_belowed_573498532832}
+  flagFormat: x3c{...}
+  description: |
+    You shouldn't need to call your crypto teammate for this challenge lol.
+  attachments:
+    - fileName: notcrypto.tar.gz
+      downloadUrl: /handouts/notcrypto.tar.gz
